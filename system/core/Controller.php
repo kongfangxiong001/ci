@@ -45,7 +45,7 @@ class CI_Controller {
 		{
 			$this->$var =& load_class($class);
 		}
-
+		//$this->load  加载system/core/Loader.php文件，并对CI_loader实例化
 		$this->load =& load_class('Loader', 'core');
 
 		$this->load->initialize();

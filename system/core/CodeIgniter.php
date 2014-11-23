@@ -69,6 +69,7 @@
  *  Define a custom error handler so we can log PHP errors
  * ------------------------------------------------------
  */
+	//不清楚怎么使用
 	set_error_handler('_exception_handler');
 
 	if ( ! is_php('5.3'))
@@ -260,6 +261,12 @@
  *  None of the functions in the app controller or the
  *  loader class can be called via the URI, nor can
  *  controller functions that begin with an underscore
+ *  
+ *  in_array(value,array,type) type:true|false 是否比较类型 
+ *  
+ *  array_map(function,array1,array2,array3...) 将 array1,array2,array3...的$v作为参数传递给function，并返回结果数组
+ *  array_map(null,array1,array2); 
+ *  strncmp(string1,string2,length) 比较两个字串是否相等。length规定比较的长度 strcmp(string1,string2) 比较大小，不规定长度。
  */
 	$class  = $RTR->fetch_class();
 	$method = $RTR->fetch_method();

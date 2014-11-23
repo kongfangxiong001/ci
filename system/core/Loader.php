@@ -147,7 +147,7 @@ class CI_Loader {
 		$this->_ci_classes = array();
 		$this->_ci_loaded_files = array();
 		$this->_ci_models = array();
-		$this->_base_classes =& is_loaded();
+		$this->_base_classes =& is_loaded();  //已经装在的class
 
 		$this->_ci_autoloader();
 
@@ -644,11 +644,27 @@ class CI_Loader {
 	 */
 	public function add_package_path($path, $view_cascade=TRUE)
 	{
+		/*
+		 *  可选。规定从字符串中删除哪些字符。
+			如果未设置该参数，则全部删除以下字符：
+			"\0" - ASCII 0, NULL
+			"\t" - ASCII 9, 制表符
+			"\n" - ASCII 10, 新行
+			"\x0B" - ASCII 11, 垂直制表符
+			"\r" - ASCII 13, 回车
+			" " - ASCII 32, 空格
+			确认加上/ 
+		 */
 		$path = rtrim($path, '/').'/';
-
+		/* array_unshift      在开头插入元素  shift移动变化，返回array中元素个数
+		 * array_shift(array) 函数删除数组中的第一个元素，并返回被删除元素的值。
+		 * array_pop(array) 函数删除数组中的最后一个元素。返回删除元素值
+		 * array_push(array) 将一个或多个单元（元素）压入数组的末尾（入栈）。返回新数组的长度
+		 */
 		array_unshift($this->_ci_library_paths, $path);
 		array_unshift($this->_ci_model_paths, $path);
 		array_unshift($this->_ci_helper_paths, $path);
+		
 
 		$this->_ci_view_paths = array($path.'views/' => $view_cascade) + $this->_ci_view_paths;
 
@@ -1119,6 +1135,7 @@ class CI_Loader {
 		}
 		else
 		{
+			//加载用户配置autoload配置文件
 			include(APPPATH.'config/autoload.php');
 		}
 
@@ -1136,10 +1153,10 @@ class CI_Loader {
 			}
 		}
 
-		// Load any custom config file
+		// Load any custom config file  加载用户配置文件
 		if (count($autoload['config']) > 0)
 		{
-			$CI =& get_instance();
+			$CI =& get_instance(); //CI_Controller instance
 			foreach ($autoload['config'] as $key => $val)
 			{
 				$CI->config->load($val);

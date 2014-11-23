@@ -68,7 +68,6 @@ class CI_Hooks {
 	function _initialize()
 	{
 		$CFG =& load_class('Config', 'core');
-
 		// If hooks are not enabled in the config file
 		// there is nothing else to do
 
@@ -76,7 +75,6 @@ class CI_Hooks {
 		{
 			return;
 		}
-
 		// Grab the "hooks" definition file.
 		// If there are no hooks, we're done.
 
@@ -89,7 +87,7 @@ class CI_Hooks {
 			include(APPPATH.'config/hooks.php');
 		}
 
-
+		
 		if ( ! isset($hook) OR ! is_array($hook))
 		{
 			return;
@@ -142,6 +140,17 @@ class CI_Hooks {
 	 * @access	private
 	 * @param	array	the hook details
 	 * @return	bool
+	 */
+	/**
+	 * hook 中data为数组，包括以下键名 其中*的为必须的，不可以为空.class 可以为空，为空则执行 $function($param);
+		filepath *
+		filename *
+		APPPATH.$data['filepath'].'/'.$data['filename']; //hook文件地址
+		
+		class
+		function *
+		params  *
+
 	 */
 	function _run_hook($data)
 	{
