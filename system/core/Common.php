@@ -134,6 +134,8 @@ if ( ! function_exists('load_class'))
 
 		// Look for the class first in the local application/libraries folder
 		// then in the native system/libraries folder
+	
+		//APPPATH application,BASEPATH system 加载两个目录下的$directory下的$class.php
 		foreach (array(APPPATH, BASEPATH) as $path)
 		{
 			if (file_exists($path.$directory.'/'.$class.'.php'))
@@ -150,6 +152,8 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Is the request a class extension?  If so we load it too
+		//加载application $directory 下的自定义前缀的 $class.php
+		//config_item 取配置项的值
 		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
 		{
 			$name = config_item('subclass_prefix').$class;
@@ -161,6 +165,7 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Did we find the class?
+		//以上三个位置都不存在则报错
 		if ($name === FALSE)
 		{
 			// Note: We use exit() rather then show_error() in order to avoid a
@@ -169,8 +174,10 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Keep track of what we just loaded
+		// $_is_loaded[strtolower($class)] = $class; 装入该静态数组内，在该数组内的class都已经require了
+		//$class 仅包含文件名，不包含路径
 		is_loaded($class);
-
+		//实例化该class并保存在$_classes静态数组中
 		$_classes[$class] = new $name();
 		return $_classes[$class];
 	}
@@ -189,6 +196,7 @@ if ( ! function_exists('is_loaded'))
 {
 	function &is_loaded($class = '')
 	{
+		//$_is_loaded 保存已经require的class文件
 		static $_is_loaded = array();
 
 		if ($class != '')
@@ -211,6 +219,9 @@ if ( ! function_exists('is_loaded'))
 * @access	private
 * @return	array
 */
+/*
+ * 加载配置文件，有配置ENVIRONMENT配置文件加载之，没有则加载总配置文件
+ */
 if ( ! function_exists('get_config'))
 {
 	function &get_config($replace = array())
@@ -233,7 +244,7 @@ if ( ! function_exists('get_config'))
 		{
 			exit('The configuration file does not exist.');
 		}
-
+		//加载配置文件
 		require($file_path);
 
 		// Does the $config array exist in the file?
@@ -243,6 +254,7 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Are any values being dynamically replaced?
+		//对配置文件中的项做替换
 		if (count($replace) > 0)
 		{
 			foreach ($replace as $key => $val)
@@ -266,6 +278,7 @@ if ( ! function_exists('get_config'))
 * @access	public
 * @return	mixed
 */
+//取配置中的配置项
 if ( ! function_exists('config_item'))
 {
 	function config_item($item)
