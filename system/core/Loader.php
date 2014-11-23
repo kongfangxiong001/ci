@@ -147,7 +147,7 @@ class CI_Loader {
 		$this->_ci_classes = array();
 		$this->_ci_loaded_files = array();
 		$this->_ci_models = array();
-		$this->_base_classes =& is_loaded();  //ÒÑ¾­×°ÔÚµÄclass
+		$this->_base_classes =& is_loaded();  //å·²ç»è£…åœ¨çš„class
 
 		$this->_ci_autoloader();
 
@@ -645,21 +645,21 @@ class CI_Loader {
 	public function add_package_path($path, $view_cascade=TRUE)
 	{
 		/*
-		 *  ¿ÉÑ¡¡£¹æ¶¨´Ó×Ö·û´®ÖÐÉ¾³ýÄÄÐ©×Ö·û¡£
-			Èç¹ûÎ´ÉèÖÃ¸Ã²ÎÊý£¬ÔòÈ«²¿É¾³ýÒÔÏÂ×Ö·û£º
+		 *  å¯é€‰ã€‚è§„å®šä»Žå­—ç¬¦ä¸²ä¸­åˆ é™¤å“ªäº›å­—ç¬¦ã€‚
+			å¦‚æžœæœªè®¾ç½®è¯¥å‚æ•°ï¼Œåˆ™å…¨éƒ¨åˆ é™¤ä»¥ä¸‹å­—ç¬¦ï¼š
 			"\0" - ASCII 0, NULL
-			"\t" - ASCII 9, ÖÆ±í·û
-			"\n" - ASCII 10, ÐÂÐÐ
-			"\x0B" - ASCII 11, ´¹Ö±ÖÆ±í·û
-			"\r" - ASCII 13, »Ø³µ
-			" " - ASCII 32, ¿Õ¸ñ
-			È·ÈÏ¼ÓÉÏ/ 
+			"\t" - ASCII 9, åˆ¶è¡¨ç¬¦
+			"\n" - ASCII 10, æ–°è¡Œ
+			"\x0B" - ASCII 11, åž‚ç›´åˆ¶è¡¨ç¬¦
+			"\r" - ASCII 13, å›žè½¦
+			" " - ASCII 32, ç©ºæ ¼
+			ç¡®è®¤åŠ ä¸Š/ 
 		 */
 		$path = rtrim($path, '/').'/';
-		/* array_unshift      ÔÚ¿ªÍ·²åÈëÔªËØ  shiftÒÆ¶¯±ä»¯£¬·µ»ØarrayÖÐÔªËØ¸öÊý
-		 * array_shift(array) º¯ÊýÉ¾³ýÊý×éÖÐµÄµÚÒ»¸öÔªËØ£¬²¢·µ»Ø±»É¾³ýÔªËØµÄÖµ¡£
-		 * array_pop(array) º¯ÊýÉ¾³ýÊý×éÖÐµÄ×îºóÒ»¸öÔªËØ¡£·µ»ØÉ¾³ýÔªËØÖµ
-		 * array_push(array) ½«Ò»¸ö»ò¶à¸öµ¥Ôª£¨ÔªËØ£©Ñ¹ÈëÊý×éµÄÄ©Î²£¨ÈëÕ»£©¡£·µ»ØÐÂÊý×éµÄ³¤¶È
+		/* array_unshift      åœ¨å¼€å¤´æ’å…¥å…ƒç´   shiftç§»åŠ¨å˜åŒ–ï¼Œè¿”å›žarrayä¸­å…ƒç´ ä¸ªæ•°
+		 * array_shift(array) å‡½æ•°åˆ é™¤æ•°ç»„ä¸­çš„ç¬¬ä¸€ä¸ªå…ƒç´ ï¼Œå¹¶è¿”å›žè¢«åˆ é™¤å…ƒç´ çš„å€¼ã€‚
+		 * array_pop(array) å‡½æ•°åˆ é™¤æ•°ç»„ä¸­çš„æœ€åŽä¸€ä¸ªå…ƒç´ ã€‚è¿”å›žåˆ é™¤å…ƒç´ å€¼
+		 * array_push(array) å°†ä¸€ä¸ªæˆ–å¤šä¸ªå•å…ƒï¼ˆå…ƒç´ ï¼‰åŽ‹å…¥æ•°ç»„çš„æœ«å°¾ï¼ˆå…¥æ ˆï¼‰ã€‚è¿”å›žæ–°æ•°ç»„çš„é•¿åº¦
 		 */
 		array_unshift($this->_ci_library_paths, $path);
 		array_unshift($this->_ci_model_paths, $path);
@@ -1135,7 +1135,7 @@ class CI_Loader {
 		}
 		else
 		{
-			//¼ÓÔØÓÃ»§ÅäÖÃautoloadÅäÖÃÎÄ¼þ
+			//åŠ è½½ç”¨æˆ·é…ç½®autoloadé…ç½®æ–‡ä»¶
 			include(APPPATH.'config/autoload.php');
 		}
 
@@ -1153,7 +1153,7 @@ class CI_Loader {
 			}
 		}
 
-		// Load any custom config file  ¼ÓÔØÓÃ»§ÅäÖÃÎÄ¼þ
+		// Load any custom config file  åŠ è½½ç”¨æˆ·é…ç½®æ–‡ä»¶
 		if (count($autoload['config']) > 0)
 		{
 			$CI =& get_instance(); //CI_Controller instance

@@ -142,10 +142,10 @@ class CI_Hooks {
 	 * @return	bool
 	 */
 	/**
-	 * hook ÖĞdataÎªÊı×é£¬°üÀ¨ÒÔÏÂ¼üÃû ÆäÖĞ*µÄÎª±ØĞëµÄ£¬²»¿ÉÒÔÎª¿Õ.class ¿ÉÒÔÎª¿Õ£¬Îª¿ÕÔòÖ´ĞĞ $function($param);
+	 * hook ä¸­dataä¸ºæ•°ç»„ï¼ŒåŒ…æ‹¬ä»¥ä¸‹é”®å å…¶ä¸­*çš„ä¸ºå¿…é¡»çš„ï¼Œä¸å¯ä»¥ä¸ºç©º.class å¯ä»¥ä¸ºç©ºï¼Œä¸ºç©ºåˆ™æ‰§è¡Œ $function($param);
 		filepath *
 		filename *
-		APPPATH.$data['filepath'].'/'.$data['filename']; //hookÎÄ¼şµØÖ·
+		APPPATH.$data['filepath'].'/'.$data['filename']; //hookæ–‡ä»¶åœ°å€
 		
 		class
 		function *

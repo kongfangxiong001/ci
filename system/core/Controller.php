@@ -45,7 +45,7 @@ class CI_Controller {
 		{
 			$this->$var =& load_class($class);
 		}
-		//$this->load  ¼ÓÔØsystem/core/Loader.phpÎÄ¼þ£¬²¢¶ÔCI_loaderÊµÀý»¯
+		//$this->load  åŠ è½½system/core/Loader.phpæ–‡ä»¶ï¼Œå¹¶å¯¹CI_loaderå®žä¾‹åŒ–
 		$this->load =& load_class('Loader', 'core');
 
 		$this->load->initialize();
