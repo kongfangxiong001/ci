@@ -27,6 +27,7 @@
 function &DB($params = '', $active_record_override = NULL)
 {
 	// Load the DB config file if a DSN string wasn't passed
+	//DSN 如果$params非DSN格式 ,取database.php的数据库配置如：'default'
 	if (is_string($params) AND strpos($params, '://') === FALSE)
 	{
 		// Is the config file in the environment folder?
@@ -37,7 +38,7 @@ function &DB($params = '', $active_record_override = NULL)
 				show_error('The configuration file database.php does not exist.');
 			}
 		}
-
+		//引入db配置文件 environment/database.php|database.php
 		include($file_path);
 
 		if ( ! isset($db) OR count($db) == 0)
@@ -57,7 +58,7 @@ function &DB($params = '', $active_record_override = NULL)
 
 		$params = $db[$active_group];
 	}
-	elseif (is_string($params))
+	elseif (is_string($params)) //$dsn = 'driver://username:password@hostname/database'; 格式
 	{
 
 		/* parse the URL from the DSN string
@@ -66,7 +67,20 @@ function &DB($params = '', $active_record_override = NULL)
 		 *  parameter. DSNs must have this prototype:
 		 *  $dsn = 'driver://username:password@hostname/database';
 		 */
-
+		/*
+		 * $url = 'http://username:password@hostname/path?arg=value#anchor';
+		   print_r(parse_url($url));
+		   Array
+			(
+			    [scheme] => http
+			    [host] => hostname
+			    [user] => username
+			    [pass] => password
+			    [path] => /path
+			    [query] => arg=value
+			    [fragment] => anchor
+			)
+		 */
 		if (($dns = @parse_url($params)) === FALSE)
 		{
 			show_error('Invalid DB Connection String');
@@ -83,6 +97,9 @@ function &DB($params = '', $active_record_override = NULL)
 		// were additional config items set?
 		if (isset($dns['query']))
 		{
+			/*
+			 * parse_str(string,array) 函数把查询字符串解析到变量中。 parse_str("id=23&name=John%20Adams",$myArray);
+			 */
 			parse_str($dns['query'], $extra);
 
 			foreach ($extra as $key => $val)
@@ -101,7 +118,8 @@ function &DB($params = '', $active_record_override = NULL)
 			}
 		}
 	}
-
+	//以上解析数据库账号密码等配置信息存放在$params
+	
 	// No DB specified yet?  Beat them senseless...
 	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
 	{
@@ -136,7 +154,14 @@ function &DB($params = '', $active_record_override = NULL)
 			eval('class CI_DB extends CI_DB_driver { }');
 		}
 	}
-
+	/**
+	 * eval('class CI_DB extends CI_DB_active_record { }');
+	 * eval('class CI_DB extends CI_DB_driver { }'); 根据是否是active_recored来定义CI_DB
+	 */
+	
+	/**
+	 * 加载对应数据库驱动
+	 */
 	require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php');
 
 	// Instantiate the DB adapter
@@ -145,7 +170,7 @@ function &DB($params = '', $active_record_override = NULL)
 
 	if ($DB->autoinit == TRUE)
 	{
-		$DB->initialize();
+		$DB->initialize(); //该方法集成自CI_DB_active_record|CI_DB_driver  CI_DB_active_record继承自CI_DB_driver  实例化
 	}
 
 	if (isset($params['stricton']) && $params['stricton'] == TRUE)

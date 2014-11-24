@@ -473,6 +473,9 @@ if ( ! function_exists('prep_url'))
  * @param	string	the string
  * @param	string	the separator
  * @return	string
+ * 
+ * 用-|_讲$str的单词连接起来
+ * 用trim去掉两端的连字符
  */
 if ( ! function_exists('url_title'))
 {

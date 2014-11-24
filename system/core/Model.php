@@ -45,9 +45,16 @@ class CI_Model {
 	 * @param	string
 	 * @access private
 	 */
+	/**
+	 * model虽然只有两个魔术方法，但是model的所有属性均来自CI
+	 * function &get_instance()
+		{
+			return CI_Controller::get_instance();
+		}
+	 */
 	function __get($key)
 	{
-		$CI =& get_instance();
+		$CI =& get_instance(); 
 		return $CI->$key;
 	}
 }

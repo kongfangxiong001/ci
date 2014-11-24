@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'ci.com';
+$config['base_url']	= 'http://ci.com/';
 
 /*
 |--------------------------------------------------------------------------

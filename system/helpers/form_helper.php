@@ -56,6 +56,7 @@ if ( ! function_exists('form_open'))
 		}
 
 		// If no action is provided then set to the current url
+		//有提供$action 则使用action否则设置为提交到当前url
 		$action OR $action = $CI->config->site_url($CI->uri->uri_string());
 
 		$form = '<form action="'.$action.'"';

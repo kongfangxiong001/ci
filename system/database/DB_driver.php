@@ -95,6 +95,7 @@ class CI_DB_driver {
 
 	/**
 	 * Initialize Database Settings
+	 * 连接数据库 并 设置charset
 	 *
 	 * @access	private Called by the constructor
 	 * @param	mixed
@@ -112,6 +113,7 @@ class CI_DB_driver {
 		// ----------------------------------------------------------------
 
 		// Connect to the database and set the connection ID
+		//$this->db_connect() 与  $this->db_pconnect() 在子类中有定义 如mysql_driver.php
 		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
 
 		// No connection resource?  Throw an error

@@ -80,7 +80,7 @@ $autoload['helper'] = array();
 |
 */
 
-$autoload['config'] = array('aaa');
+$autoload['config'] = array('');
 
 
 /*

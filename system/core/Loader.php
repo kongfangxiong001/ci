@@ -125,7 +125,7 @@ class CI_Loader {
 	{
 		$this->_ci_ob_level  = ob_get_level();
 		$this->_ci_library_paths = array(APPPATH, BASEPATH);
-		$this->_ci_helper_paths = array(APPPATH, BASEPATH);
+		$this->_ci_helper_paths = array(APPPATH, BASEPATH); //先加载APPPATH中的helper，然后才加载BASEPATH中的helper
 		$this->_ci_model_paths = array(APPPATH);
 		$this->_ci_view_paths = array(APPPATH.'views/'	=> TRUE);
 
@@ -212,6 +212,9 @@ class CI_Loader {
 		{
 			$params = NULL;
 		}
+		/**
+		 * 以上是修正$params,$library不能为空。$params不为null不是array则设置为NULL
+		 */
 
 		$this->_ci_load_class($library, $params, $object_name);
 	}
@@ -227,6 +230,9 @@ class CI_Loader {
 	 * @param	string	name for the model
 	 * @param	bool	database connection
 	 * @return	void
+	 * 
+	 * $model为大小写皆可，只是在赋值给CI的时候必须一致。
+	 * 后面加载$model文件，在实例化的时候ucfirst。
 	 */
 	public function model($model, $name = '', $db_conn = FALSE)
 	{
@@ -247,6 +253,10 @@ class CI_Loader {
 		$path = '';
 
 		// Is the model in a sub-folder? If so, parse out the filename and path.
+		/**
+		 * strrpos($model, '/');查找最后一个/并返回位置，找不到返回false
+		 * substr($string,$pos1,$pos2); 包括前面不包括后面。
+		 */
 		if (($last_slash = strrpos($model, '/')) !== FALSE)
 		{
 			// The path is in front of the last slash
@@ -260,13 +270,20 @@ class CI_Loader {
 		{
 			$name = $model;
 		}
-
+		/**
+		 * 防止加载两次
+		 */
 		if (in_array($name, $this->_ci_models, TRUE))
 		{
 			return;
 		}
 
 		$CI =& get_instance();
+		/**
+		 * 加载两次按说应该报错，但是没有!
+		 * 因为这句$this->_ci_models[] = $name;
+		 * 不会执行到这里,而只会加载一次
+		 */
 		if (isset($CI->$name))
 		{
 			show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
@@ -295,13 +312,17 @@ class CI_Loader {
 			{
 				load_class('Model', 'core');
 			}
-
+			
+			//加载model类,
 			require_once($mod_path.'models/'.$path.$model.'.php');
 
 			$model = ucfirst($model);
-
+			
+			/**
+			 * 实例化后，为CI添加属性,如果有$name则以$name为属性名，否则以model名为
+			 */
 			$CI->$name = new $model();
-
+			
 			$this->_ci_models[] = $name;
 			return;
 		}
@@ -330,7 +351,7 @@ class CI_Loader {
 		{
 			return FALSE;
 		}
-
+		//引入db适配器
 		require_once(BASEPATH.'database/DB.php');
 
 		if ($return === TRUE)
@@ -492,6 +513,9 @@ class CI_Loader {
 	 */
 	public function helper($helpers = array())
 	{
+		/**
+		 * $helper 形式为file_helper
+		 */
 		foreach ($this->_ci_prep_filename($helpers, '_helper') as $helper)
 		{
 			if (isset($this->_ci_helpers[$helper]))
@@ -502,6 +526,7 @@ class CI_Loader {
 			$ext_helper = APPPATH.'helpers/'.config_item('subclass_prefix').$helper.'.php';
 
 			// Is this a helper extension request?
+			//是否是对系统helper的扩展
 			if (file_exists($ext_helper))
 			{
 				$base_helper = BASEPATH.'helpers/'.$helper.'.php';
@@ -516,7 +541,7 @@ class CI_Loader {
 
 				$this->_ci_helpers[$helper] = TRUE;
 				log_message('debug', 'Helper loaded: '.$helper);
-				continue;
+				continue;   //如果是扩展的某一个helper则加载到此，然后加载另一个helper
 			}
 
 			// Try to load the helper
@@ -901,6 +926,10 @@ class CI_Loader {
 
 		// Was the path included with the class name?
 		// We look for a slash to determine this
+		/**
+		 * 可以传递子目录
+		 * APPPATH/subdir/helper.php
+		 */
 		$subdir = '';
 		if (($last_slash = strrpos($class, '/')) !== FALSE)
 		{
@@ -928,6 +957,9 @@ class CI_Loader {
 				}
 
 				// Safety:  Was the class already loaded by a previous call?
+				/**
+				 * in_array($needle,$array);
+				 */
 				if (in_array($subclass, $this->_ci_loaded_files))
 				{
 					// Before we deem this to be a duplicate request, let's see
@@ -1242,6 +1274,9 @@ class CI_Loader {
 	 * @param	mixed
 	 * @param 	string
 	 * @return	array
+	 * 
+	 * hi.php.txt==>hi.txt
+	 * 
 	 */
 	protected function _ci_prep_filename($filename, $extension)
 	{

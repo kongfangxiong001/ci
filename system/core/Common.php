@@ -135,7 +135,7 @@ if ( ! function_exists('load_class'))
 		// Look for the class first in the local application/libraries folder
 		// then in the native system/libraries folder
 	
-		//APPPATH application,BASEPATH system ¼ÓÔØÁ½¸öÄ¿Â¼ÏÂµÄ$directoryÏÂµÄ$class.php
+		//APPPATH application,BASEPATH system åŠ è½½ä¸¤ä¸ªç›®å½•ä¸‹çš„$directoryä¸‹çš„$class.php
 		foreach (array(APPPATH, BASEPATH) as $path)
 		{
 			if (file_exists($path.$directory.'/'.$class.'.php'))
@@ -152,8 +152,8 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Is the request a class extension?  If so we load it too
-		//¼ÓÔØapplication $directory ÏÂµÄ×Ô¶¨ÒåÇ°×ºµÄ $class.php
-		//config_item È¡ÅäÖÃÏîµÄÖµ
+		//åŠ è½½application $directory ä¸‹çš„è‡ªå®šä¹‰å‰ç¼€çš„ $class.php
+		//config_item å–é…ç½®é¡¹çš„å€¼
 		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
 		{
 			$name = config_item('subclass_prefix').$class;
@@ -165,7 +165,7 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Did we find the class?
-		//ÒÔÉÏÈı¸öÎ»ÖÃ¶¼²»´æÔÚÔò±¨´í
+		//ä»¥ä¸Šä¸‰ä¸ªä½ç½®éƒ½ä¸å­˜åœ¨åˆ™æŠ¥é”™
 		if ($name === FALSE)
 		{
 			// Note: We use exit() rather then show_error() in order to avoid a
@@ -174,10 +174,10 @@ if ( ! function_exists('load_class'))
 		}
 
 		// Keep track of what we just loaded
-		// $_is_loaded[strtolower($class)] = $class; ×°Èë¸Ã¾²Ì¬Êı×éÄÚ£¬ÔÚ¸ÃÊı×éÄÚµÄclass¶¼ÒÑ¾­requireÁË
-		//$class ½ö°üº¬ÎÄ¼şÃû£¬²»°üº¬Â·¾¶
+		// $_is_loaded[strtolower($class)] = $class; è£…å…¥è¯¥é™æ€æ•°ç»„å†…ï¼Œåœ¨è¯¥æ•°ç»„å†…çš„classéƒ½å·²ç»requireäº†
+		//$class ä»…åŒ…å«æ–‡ä»¶åï¼Œä¸åŒ…å«è·¯å¾„
 		is_loaded($class);
-		//ÊµÀı»¯¸Ãclass²¢±£´æÔÚ$_classes¾²Ì¬Êı×éÖĞ
+		//å®ä¾‹åŒ–è¯¥classå¹¶ä¿å­˜åœ¨$_classesé™æ€æ•°ç»„ä¸­
 		$_classes[$class] = new $name();
 		return $_classes[$class];
 	}
@@ -196,7 +196,7 @@ if ( ! function_exists('is_loaded'))
 {
 	function &is_loaded($class = '')
 	{
-		//$_is_loaded ±£´æÒÑ¾­requireµÄclassÎÄ¼ş
+		//$_is_loaded ä¿å­˜å·²ç»requireçš„classæ–‡ä»¶
 		static $_is_loaded = array();
 
 		if ($class != '')
@@ -220,7 +220,7 @@ if ( ! function_exists('is_loaded'))
 * @return	array
 */
 /*
- * ¼ÓÔØÅäÖÃÎÄ¼ş£¬ÓĞÅäÖÃENVIRONMENTÅäÖÃÎÄ¼ş¼ÓÔØÖ®£¬Ã»ÓĞÔò¼ÓÔØ×ÜÅäÖÃÎÄ¼ş
+ * åŠ è½½é…ç½®æ–‡ä»¶ï¼Œæœ‰é…ç½®ENVIRONMENTé…ç½®æ–‡ä»¶åŠ è½½ä¹‹ï¼Œæ²¡æœ‰åˆ™åŠ è½½æ€»é…ç½®æ–‡ä»¶
  */
 if ( ! function_exists('get_config'))
 {
@@ -244,7 +244,7 @@ if ( ! function_exists('get_config'))
 		{
 			exit('The configuration file does not exist.');
 		}
-		//¼ÓÔØÅäÖÃÎÄ¼ş
+		//åŠ è½½é…ç½®æ–‡ä»¶
 		require($file_path);
 
 		// Does the $config array exist in the file?
@@ -254,7 +254,7 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Are any values being dynamically replaced?
-		//¶ÔÅäÖÃÎÄ¼şÖĞµÄÏî×öÌæ»»
+		//å¯¹é…ç½®æ–‡ä»¶ä¸­çš„é¡¹åšæ›¿æ¢
 		if (count($replace) > 0)
 		{
 			foreach ($replace as $key => $val)
@@ -278,7 +278,7 @@ if ( ! function_exists('get_config'))
 * @access	public
 * @return	mixed
 */
-//È¡ÅäÖÃÖĞµÄÅäÖÃÏî
+//å–é…ç½®ä¸­çš„é…ç½®é¡¹
 if ( ! function_exists('config_item'))
 {
 	function config_item($item)
