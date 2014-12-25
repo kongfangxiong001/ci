@@ -62,6 +62,7 @@ class CI_Session {
 
 		// Set all the session preferences, which can either be set
 		// manually via the $params array above or via the config file
+		//将config配置项设置为该对象的属性
 		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key') as $key)
 		{
 			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
@@ -103,6 +104,7 @@ class CI_Session {
 
 		// Run the Session routine. If a session doesn't exist we'll
 		// create a new one.  If it does, we'll update it.
+		//检测是否有session，如果session不存在建立
 		if ( ! $this->sess_read())
 		{
 			$this->sess_create();
@@ -135,6 +137,7 @@ class CI_Session {
 	function sess_read()
 	{
 		// Fetch the cookie
+		//读取cookie / session
 		$session = $this->CI->input->cookie($this->sess_cookie_name);
 
 		// No cookie?  Goodbye cruel world!...
@@ -145,6 +148,7 @@ class CI_Session {
 		}
 
 		// HMAC authentication
+		//前40个长度存放什么？
 		$len = strlen($session) - 40;
 
 		if ($len <= 0)
@@ -327,6 +331,7 @@ class CI_Session {
 		}
 
 		// To make the session ID even more secure we'll combine it with the user's IP
+		//与ip绑定，为了更安全
 		$sessid .= $this->CI->input->ip_address();
 
 		$this->userdata = array(
@@ -672,7 +677,7 @@ class CI_Session {
 		{
 			$cookie_data = $this->CI->encrypt->encode($cookie_data);
 		}
-
+		//用散列函数sha1对$cookie_data加密
 		$cookie_data .= hash_hmac('sha1', $cookie_data, $this->encryption_key);
 
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();

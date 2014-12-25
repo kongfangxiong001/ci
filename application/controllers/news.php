@@ -9,6 +9,17 @@ class News extends CI_Controller{
 		$data['news'] = $this->news_model->get_news();
 		$data['title'] = 'News archive';
 		
+		$this->load->library('pagination');
+
+		$config['base_url'] = 'http://example.com/index.php/test/page/';
+		$config['total_rows'] = 200;
+		$config['per_page'] = 20; 
+		
+		$this->pagination->initialize($config); 
+		
+		$data['pages'] =  $this->pagination->create_links();
+		
+		
 		$this->load->view('templates/header',$data);
 		$this->load->view('news/index',$data);
 		$this->load->view('templates/footer');
@@ -46,8 +57,37 @@ class News extends CI_Controller{
 		}
 	}
 	
-	public function aa(){
-		echo 'I am utility';
+	public function get(){
+		header("Content-Type:text/html;charset=utf-8");
+		$query = $this->db->query("select * from `news`");
+//		foreach($query->result('news') as $row){
+//			echo $row->show();
+//		}
+//		foreach($query->result_array() as $row){
+//			print_r($row);			
+//		}
+//		if($query->num_rows()>0){
+//			$row = $query->row(1);
+//			print_r($row);
+//		}
+//		if($query->num_rows()>0){
+//			$row = $query->row_array(1);
+//			print_r($row);
+//		}
+//		$row = $query->first_row();
+//		print_r($row);
+//		$row = $query->last_row();
+//		print_R($row);
+		echo $query->num_fields();
+		echo $query->num_rows();
+		$row = $query->next_row('array');
+		print_r($row);
+		$row = $query->previous_row();
+		print_r($row);
+		$query->free_result();
+	}
+	public function show(){
+		echo 'show';
 	}
  
 }

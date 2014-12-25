@@ -5,3 +5,6 @@
 	</div>
 	<p><a href="http://ci.com/index.php/news/<?php echo $news_item['slug']?>">View articl</a>
 <?php endforeach ?>
+<br/>
+<?php echo $pages;?>
+<br/>
