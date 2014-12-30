@@ -197,6 +197,7 @@ if (defined('ENVIRONMENT'))
  * --------------------------------------------------------------------
  *
  * And away we go...
+ * 定义一些变量，加载bootstrap文件
  *
  */
 require_once BASEPATH.'core/CodeIgniter.php';

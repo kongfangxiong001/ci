@@ -47,6 +47,7 @@
  * ------------------------------------------------------
  *  Load the global functions
  * ------------------------------------------------------
+ * åŠ è½½å…¨å±€å‡½æ•°
  */
 	require(BASEPATH.'core/Common.php');
 
@@ -69,7 +70,7 @@
  *  Define a custom error handler so we can log PHP errors
  * ------------------------------------------------------
  */
-	//²»Çå³þÔõÃ´Ê¹ÓÃ
+	//ä¸æ¸…æ¥šæ€Žä¹ˆä½¿ç”¨
 	set_error_handler('_exception_handler');
 
 	if ( ! is_php('5.3'))
@@ -226,9 +227,9 @@
  * ------------------------------------------------------
  *
  */
-	// Load the base controller class
-	require BASEPATH.'core/Controller.php';
-
+	// Load the base controller class  
+	require BASEPATH.'core/Controller.php';  
+	//åŠ è½½åŽå®šä¹‰ä¸€ä¸ªå…¨å±€å‡½æ•°
 	function &get_instance()
 	{
 		return CI_Controller::get_instance();
@@ -262,11 +263,11 @@
  *  loader class can be called via the URI, nor can
  *  controller functions that begin with an underscore
  *  
- *  in_array(value,array,type) type:true|false ÊÇ·ñ±È½ÏÀàÐÍ 
+ *  in_array(value,array,type) type:true|false æ˜¯å¦æ¯”è¾ƒç±»åž‹ 
  *  
- *  array_map(function,array1,array2,array3...) ½« array1,array2,array3...µÄ$v×÷Îª²ÎÊý´«µÝ¸øfunction£¬²¢·µ»Ø½á¹ûÊý×é
+ *  array_map(function,array1,array2,array3...) å°† array1,array2,array3...çš„$vä½œä¸ºå‚æ•°ä¼ é€’ç»™functionï¼Œå¹¶è¿”å›žç»“æžœæ•°ç»„
  *  array_map(null,array1,array2); 
- *  strncmp(string1,string2,length) ±È½ÏÁ½¸ö×Ö´®ÊÇ·ñÏàµÈ¡£length¹æ¶¨±È½ÏµÄ³¤¶È strcmp(string1,string2) ±È½Ï´óÐ¡£¬²»¹æ¶¨³¤¶È¡£
+ *  strncmp(string1,string2,length) æ¯”è¾ƒä¸¤ä¸ªå­—ä¸²æ˜¯å¦ç›¸ç­‰ã€‚lengthè§„å®šæ¯”è¾ƒçš„é•¿åº¦ strcmp(string1,string2) æ¯”è¾ƒå¤§å°ï¼Œä¸è§„å®šé•¿åº¦ã€‚
  */
 	$class  = $RTR->fetch_class();
 	$method = $RTR->fetch_method();

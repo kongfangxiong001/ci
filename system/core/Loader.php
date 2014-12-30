@@ -147,7 +147,7 @@ class CI_Loader {
 		$this->_ci_classes = array();
 		$this->_ci_loaded_files = array();
 		$this->_ci_models = array();
-		$this->_base_classes =& is_loaded();  //已经装在的class
+		$this->_base_classes =& is_loaded();  //已经装载的class赋值给_base_classes。引用
 
 		$this->_ci_autoloader();
 

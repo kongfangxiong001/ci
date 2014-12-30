@@ -117,6 +117,9 @@ if ( ! function_exists('is_really_writable'))
 * @param	string	the directory where the class should be found
 * @param	string	the class name prefix
 * @return	object
+* 
+* 加载class，返回实例
+* 这三个文件夹下找 class：APPPATH, BASEPATH，APPPATH.$directory.'/'.config_item('subclass_prefix')
 */
 if ( ! function_exists('load_class'))
 {
@@ -196,7 +199,10 @@ if ( ! function_exists('is_loaded'))
 {
 	function &is_loaded($class = '')
 	{
-		//$_is_loaded 保存已经require的class文件
+		/**
+		 * $_is_loaded数组内的class都已经加载了。 保存已经require的class文件
+		 * 定义为static，则在本次程序调用的过程中，$_is_loaded不会再被初始化，只会添加。局部变量。
+		 */
 		static $_is_loaded = array();
 
 		if ($class != '')
@@ -219,7 +225,8 @@ if ( ! function_exists('is_loaded'))
 * @access	private
 * @return	array
 */
-/*
+
+/**
  * 加载配置文件，有配置ENVIRONMENT配置文件加载之，没有则加载总配置文件
  */
 if ( ! function_exists('get_config'))
