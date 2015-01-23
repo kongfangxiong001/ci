@@ -42,6 +42,15 @@ class Welcome extends CI_Controller {
 		$fruit = array('apple'=>'pingguo','banana'=>'xiangjiao');
 		$this->load->vars($fruit);
 	}
+	public function cache_driver()
+	{
+		$fruit = array('apple'=>'pingguo','banana'=>'aca');
+		
+		$this->load->driver("Cache");
+		$this->cache->file->save('abc',$fruit,10);
+		$content = $this->cache->file->get('abc');
+		print_r($content);
+	}
 	
 }
 
