@@ -232,6 +232,7 @@ if ( ! function_exists('get_config'))
 	 *
 	 * This function lets us grab the config file even if the Config class
 	 * hasn't been instantiated yet
+	 * 获取并返回 config.php中的配置。如果设置了$replace，config.php中对应的配置项会被替换掉。
 	 *
 	 * @param	array
 	 * @return	array

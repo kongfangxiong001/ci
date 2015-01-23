@@ -126,7 +126,7 @@ class CI_Config {
 			{
 				continue;
 			}
-
+			//找到后加载
 			include($file_path);
 
 			if ( ! isset($config) OR ! is_array($config))  //被load的文件必须是$config['xx']='yy'; 格式，
@@ -323,6 +323,8 @@ class CI_Config {
 
 	/**
 	 * System URL
+	 *
+	 *????
 	 *
 	 * @access	public
 	 * @return	string

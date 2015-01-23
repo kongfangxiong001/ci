@@ -52,6 +52,19 @@ class Welcome extends CI_Controller {
 		print_r($content);
 	}
 	
+	public function config_load()
+	{
+		$this->config->load('test',true);
+		echo $this->config->item('auto');
+		echo $this->config->item('pagesize','test');
+		echo $this->config->slash_item('index_page');
+		echo $this->config->base_url("admin/he");
+	}
+	public function input_get()
+	{
+		print_r($this->input);
+	}
+	
 }
 
 /* End of file welcome.php */

@@ -229,7 +229,7 @@
  */
 	// Load the base controller class  
 	require BASEPATH.'core/Controller.php';  
-	//加载后定义一个全局函数
+	//加载后定义一个全局函数, $CI = &get_instance();获取CI
 	function &get_instance()
 	{
 		return CI_Controller::get_instance();
