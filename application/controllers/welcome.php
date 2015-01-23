@@ -37,6 +37,12 @@ class Welcome extends CI_Controller {
 		$this->load->library("Session/Session");
 		print_r($this->session);
 	}
+	public function test_vars()
+	{
+		$fruit = array('apple'=>'pingguo','banana'=>'xiangjiao');
+		$this->load->vars($fruit);
+	}
+	
 }
 
 /* End of file welcome.php */

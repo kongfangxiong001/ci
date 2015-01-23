@@ -213,7 +213,7 @@ class CI_Loader {
 			$params = NULL;
 		}
 		/**
-		 * 以上是修正$params,$library不能为空。$params不为null不是array则设置为NULL
+		 * 以上是修正$params,$library||  $library不能为空, $params不为null不是array则设置为NULL
 		 */
 		$this->_ci_load_class($library, $params, $object_name);
 	}
@@ -232,6 +232,7 @@ class CI_Loader {
 	 * 
 	 * $model为大小写皆可，只是在赋值给CI的时候必须一致。
 	 * 后面加载$model文件，在实例化的时候ucfirst。
+	 * $path
 	 */
 	public function model($model, $name = '', $db_conn = FALSE)
 	{
@@ -255,6 +256,7 @@ class CI_Loader {
 		/**
 		 * strrpos($model, '/');查找最后一个/并返回位置，找不到返回false
 		 * substr($string,$pos1,$pos2); 包括前面不包括后面。
+		 * 
 		 */
 		if (($last_slash = strrpos($model, '/')) !== FALSE)
 		{
@@ -318,7 +320,7 @@ class CI_Loader {
 			$model = ucfirst($model);
 			
 			/**
-			 * 实例化后，为CI添加属性,如果有$name则以$name为属性名，否则以model名为
+			 * 实例化，为CI添加属性,如果有$name则以$name为属性名，否则以model名为
 			 */
 			$CI->$name = new $model();
 			
@@ -513,7 +515,7 @@ class CI_Loader {
 	public function helper($helpers = array())
 	{
 		/**
-		 * $helper 形式为file_helper
+		 * $helper 形式为file;array('file');
 		 */
 		foreach ($this->_ci_prep_filename($helpers, '_helper') as $helper)
 		{
@@ -525,7 +527,7 @@ class CI_Loader {
 			$ext_helper = APPPATH.'helpers/'.config_item('subclass_prefix').$helper.'.php';
 
 			// Is this a helper extension request?
-			//是否是对系统helper的扩展
+			//是否是对系统helper的扩展,
 			if (file_exists($ext_helper))
 			{
 				$base_helper = BASEPATH.'helpers/'.$helper.'.php';
@@ -534,20 +536,21 @@ class CI_Loader {
 				{
 					show_error('Unable to load the requested file: helpers/'.$helper.'.php');
 				}
-
+				//是扩展，则两个都加载
 				include_once($ext_helper);
 				include_once($base_helper);
 
 				$this->_ci_helpers[$helper] = TRUE;
 				log_message('debug', 'Helper loaded: '.$helper);
-				continue;   //如果是扩展的某一个helper则加载到此，然后加载另一个helper
+				continue;   
 			}
 
-			// Try to load the helper
+			// Try to load the helper 不是扩展
 			foreach ($this->_ci_helper_paths as $path)
 			{
 				if (file_exists($path.'helpers/'.$helper.'.php'))
 				{
+					//加载helper
 					include_once($path.'helpers/'.$helper.'.php');
 
 					$this->_ci_helpers[$helper] = TRUE;
@@ -556,7 +559,7 @@ class CI_Loader {
 				}
 			}
 
-			// unable to load the helper
+			// unable to load the helper 没有则，报错
 			if ( ! isset($this->_ci_helpers[$helper]))
 			{
 				show_error('Unable to load the requested file: helpers/'.$helper.'.php');
@@ -839,6 +842,7 @@ class CI_Loader {
 		 * function or via the second parameter of this function. We'll merge
 		 * the two types and cache them so that views that are embedded within
 		 * other views can have access to these variables.
+		 * 在view可以使用
 		 */
 		if (is_array($_ci_vars))
 		{
@@ -926,14 +930,14 @@ class CI_Loader {
 		// Was the path included with the class name?
 		// We look for a slash to determine this
 		/**
-		 * 可以传递子目录
+		 * 可以传递子目录 
 		 * APPPATH/subdir/helper.php
 		 * $this->library("subdir/$class",$params,$object_name);
 		 */
 		$subdir = '';
 		if (($last_slash = strrpos($class, '/')) !== FALSE)
 		{
-			// Extract the path
+			// Extract the path  可以多层目录
 			$subdir = substr($class, 0, $last_slash + 1);
 
 			// Get the filename from the path
@@ -945,7 +949,7 @@ class CI_Loader {
 		{
 			$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
 
-			// Is this a class extension request?  是对system类的扩展
+			// Is this a class extension request?  config_item('subclass_prefix') 是对system类的扩展
 			if (file_exists($subclass))
 			{
 				$baseclass = BASEPATH.'libraries/'.ucfirst($class).'.php';
@@ -978,7 +982,9 @@ class CI_Loader {
 					log_message('debug', $class." class already loaded. Second attempt ignored.");
 					return;
 				}
-
+				/**
+				 * 两个都加载  class MY_Email extends CI_Email {
+				 */
 				include_once($baseclass);
 				include_once($subclass);
 				$this->_ci_loaded_files[] = $subclass;
@@ -986,7 +992,7 @@ class CI_Loader {
 				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 			}
 
-			// Lets search for the requested library file and load it. 添加的类
+			// Lets search for the requested library file and load it. 新添加的library
 			$is_duplicate = FALSE;
 			foreach ($this->_ci_library_paths as $path)
 			{
@@ -1063,7 +1069,7 @@ class CI_Loader {
 			if (is_array($config_component->_config_paths))
 			{
 				// Break on the first found file, thus package files
-				// are not overridden by default paths
+				// are not overridden by default paths  配置文件要与$class同名,放在$patch.'config/'下
 				foreach ($config_component->_config_paths as $path)
 				{
 					// We test for both uppercase and lowercase, for servers that
@@ -1241,7 +1247,7 @@ class CI_Loader {
 	 * Object to Array
 	 *
 	 * Takes an object as input and converts the class variables to array key/vals
-	 *
+	 * get_object_vars(); http://php.net/manual/zh/function.get-object-vars.php  返回由对象属性组成的关联数组
 	 * @param	object
 	 * @return	array
 	 */
@@ -1267,7 +1273,7 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Prep filename
+	 * Prep filename // prepar
 	 *
 	 * This function preps the name of various items to make loading them more reliable.
 	 *
