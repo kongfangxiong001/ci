@@ -327,7 +327,7 @@
  *  Call the requested method
  * ------------------------------------------------------
  */
-	// Is there a "remap" function? If so, we call it instead
+	// Is there a "remap" function? If so, we call it instead $CI 中是否有_remap方法
 	if (method_exists($CI, '_remap'))
 	{
 		$CI->_remap($method, array_slice($URI->rsegments, 2));
@@ -335,23 +335,23 @@
 	else
 	{
 		// is_callable() returns TRUE on some versions of PHP 5 for private and protected
-		// methods, so we'll use this workaround for consistent behavior
+		// methods, so we'll use this workaround for consistent behavior $CI 中没有这个方法
 		if ( ! in_array(strtolower($method), array_map('strtolower', get_class_methods($CI))))
 		{
 			// Check and see if we are using a 404 override and use it.
 			if ( ! empty($RTR->routes['404_override']))
 			{
-				$x = explode('/', $RTR->routes['404_override']);
+				$x = explode('/', $RTR->routes['404_override']);  //如果路由有定义404_override
 				$class = $x[0];
 				$method = (isset($x[1]) ? $x[1] : 'index');
 				if ( ! class_exists($class))
 				{
 					if ( ! file_exists(APPPATH.'controllers/'.$class.'.php'))
 					{
-						show_404("{$class}/{$method}");
+						show_404("{$class}/{$method}"); //404定义错误了
 					}
 
-					include_once(APPPATH.'controllers/'.$class.'.php');
+					include_once(APPPATH.'controllers/'.$class.'.php'); //使用404_override的class/method
 					unset($CI);
 					$CI = new $class();
 				}
@@ -362,8 +362,9 @@
 			}
 		}
 
-		// Call the requested method.
+		// Call the requested method.  真正执行controller/function
 		// Any URI segments present (besides the class/function) will be passed to the method for convenience
+		//call_user_func_array(call_back,param_arr)  call_back 回调函数可以array(class,func),func
 		call_user_func_array(array(&$CI, $method), array_slice($URI->rsegments, 2));
 	}
 

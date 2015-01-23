@@ -21,6 +21,22 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
+	
+	public function show()
+	{
+		$this->load->library('layout');
+		 
+		$data["page_title"] = "业务咨询"; 
+		$data["Keywords"] = "华领GPS业务咨询,GPS车辆管理,如何开通GPS车辆管理系统,GPS车辆管理系统,昆山GPS车辆管理系统,华领GPS车辆管理系统"; 
+		$data["Description"] = "如何开通GPS车辆管理系统,昆山华领网络设备服务部——领先的GPS车辆管理系统服务商"; 
+		$this->layout->view('support',$data); 
+	}
+	
+	public function test_session()
+	{
+		$this->load->library("Session/Session");
+		print_r($this->session);
+	}
 }
 
 /* End of file welcome.php */

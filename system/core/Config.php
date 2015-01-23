@@ -129,7 +129,7 @@ class CI_Config {
 
 			include($file_path);
 
-			if ( ! isset($config) OR ! is_array($config))
+			if ( ! isset($config) OR ! is_array($config))  //被load的文件必须是$config['xx']='yy'; 格式，
 			{
 				if ($fail_gracefully === TRUE)
 				{
@@ -138,7 +138,7 @@ class CI_Config {
 				show_error('Your '.$file_path.' file does not appear to contain a valid configuration array.');
 			}
 
-			if ($use_sections === TRUE)
+			if ($use_sections === TRUE)//section
 			{
 				if (isset($this->config[$file]))
 				{

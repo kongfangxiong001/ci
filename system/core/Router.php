@@ -274,16 +274,16 @@ class CI_Router {
 			return $segments;
 		}
 
-		// Is the controller in a sub-folder?
+		// Is the controller in a sub-folder?  //$segments[0]是dir则设置 sub_dir
 		if (is_dir(APPPATH.'controllers/'.$segments[0]))
 		{
 			// Set the directory and remove it from the segment array
 			$this->set_directory($segments[0]);
 			$segments = array_slice($segments, 1);
-
+			//有指定controller/method 则调用，否则调用defaut_controller
 			if (count($segments) > 0)
 			{
-				// Does the requested controller exist in the sub-folder?
+				// Does the requested controller exist in the sub-folder?  //sub_dir/$class/method不存在 报错
 				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].'.php'))
 				{
 					if ( ! empty($this->routes['404_override']))

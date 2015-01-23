@@ -215,7 +215,6 @@ class CI_Loader {
 		/**
 		 * 以上是修正$params,$library不能为空。$params不为null不是array则设置为NULL
 		 */
-
 		$this->_ci_load_class($library, $params, $object_name);
 	}
 
@@ -929,6 +928,7 @@ class CI_Loader {
 		/**
 		 * 可以传递子目录
 		 * APPPATH/subdir/helper.php
+		 * $this->library("subdir/$class",$params,$object_name);
 		 */
 		$subdir = '';
 		if (($last_slash = strrpos($class, '/')) !== FALSE)
@@ -940,12 +940,12 @@ class CI_Loader {
 			$class = substr($class, $last_slash + 1);
 		}
 
-		// We'll test for both lowercase and capitalized versions of the file name
+		// We'll test for both lowercase and capitalized versions of the file name  
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
 			$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
 
-			// Is this a class extension request?
+			// Is this a class extension request?  是对system类的扩展
 			if (file_exists($subclass))
 			{
 				$baseclass = BASEPATH.'libraries/'.ucfirst($class).'.php';
@@ -986,7 +986,7 @@ class CI_Loader {
 				return $this->_ci_init_class($class, config_item('subclass_prefix'), $params, $object_name);
 			}
 
-			// Lets search for the requested library file and load it.
+			// Lets search for the requested library file and load it. 添加的类
 			$is_duplicate = FALSE;
 			foreach ($this->_ci_library_paths as $path)
 			{
