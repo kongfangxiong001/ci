@@ -112,7 +112,7 @@ class CI_Config {
 				if (in_array($file_path, $this->is_loaded, TRUE))
 				{
 					$loaded = TRUE;
-					continue 2;
+					continue 2;  //跳出两层循环
 				}
 
 				if (file_exists($file_path))

@@ -190,6 +190,9 @@ class CI_Loader {
 	 * @param	mixed	the optional parameters
 	 * @param	string	an optional object name
 	 * @return	void
+	 * 
+	 * $this->$classname/$object_name = new $classname;
+	 * 
 	 */
 	public function library($library = '', $params = NULL, $object_name = NULL)
 	{
@@ -519,7 +522,7 @@ class CI_Loader {
 		 */
 		foreach ($this->_ci_prep_filename($helpers, '_helper') as $helper)
 		{
-			if (isset($this->_ci_helpers[$helper]))
+			if (isset($this->_ci_helpers[$helper])) //已经加载过了
 			{
 				continue;
 			}
@@ -1164,6 +1167,7 @@ class CI_Loader {
 	 *
 	 * @param	array
 	 * @return	void
+	 * 
 	 */
 	private function _ci_autoloader()
 	{
@@ -1191,7 +1195,7 @@ class CI_Loader {
 			}
 		}
 
-		// Load any custom config file  加载用户配置文件
+		// Load any custom config file  加载 autoload.php中的$authload['config']的配置
 		if (count($autoload['config']) > 0)
 		{
 			$CI =& get_instance(); //CI_Controller instance
@@ -1201,7 +1205,7 @@ class CI_Loader {
 			}
 		}
 
-		// Autoload helpers and languages
+		// Autoload helpers and languages  //加载helpers和languages
 		foreach (array('helper', 'language') as $type)
 		{
 			if (isset($autoload[$type]) AND count($autoload[$type]) > 0)
@@ -1210,8 +1214,8 @@ class CI_Loader {
 			}
 		}
 
-		// A little tweak to remain backward compatible
-		// The $autoload['core'] item was deprecated
+		// A little tweak to  remain backward compatible //tweak拧 a little tweak to do[有点调整]
+		// The $autoload['core'] item was deprecated   //本版本没有$autoload['core'],而用librarys代替
 		if ( ! isset($autoload['libraries']) AND isset($autoload['core']))
 		{
 			$autoload['libraries'] = $autoload['core'];
@@ -1224,6 +1228,7 @@ class CI_Loader {
 			if (in_array('database', $autoload['libraries']))
 			{
 				$this->database();
+				//array_diff(arr1,arr2);在$arr1中，但不在其他$arr中。database的加载和其他不同。
 				$autoload['libraries'] = array_diff($autoload['libraries'], array('database'));
 			}
 
@@ -1282,6 +1287,7 @@ class CI_Loader {
 	 * @return	array
 	 * 
 	 * hi.php.txt==>hi.txt
+	 * array_helper.php => array_helper
 	 * 
 	 */
 	protected function _ci_prep_filename($filename, $extension)

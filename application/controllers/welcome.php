@@ -63,8 +63,18 @@ class Welcome extends CI_Controller {
 	public function input_get()
 	{
 		print_r($this->input);
+		echo $this->config->system_url();
 	}
 	
+	public function get_config()
+	{
+		$config = &get_config(array(
+			'base_url'=>'http://loaclhost/',
+			'subclass_prefix' => 'MYCI_'
+		));  //&get_config为static，会影响到$this->config
+		print_r($config);
+		print_r($this->config);
+	}
 }
 
 /* End of file welcome.php */

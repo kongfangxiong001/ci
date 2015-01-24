@@ -138,7 +138,7 @@ if ( ! function_exists('load_class'))
 	 * @param	string	an optional argument to pass to the class constructor
 	 * @return	object
 	 * 
-	 * 加载$directory下的$class
+	 * 加载$directory下的$class; 返回$class的实例
 	 */
 	function &load_class($class, $directory = 'libraries', $param = NULL)
 	{

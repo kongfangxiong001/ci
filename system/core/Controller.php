@@ -33,6 +33,7 @@ class CI_Controller {
 
 	/**
 	 * Constructor
+	 * 
 	 */
 	public function __construct()
 	{
@@ -48,7 +49,7 @@ class CI_Controller {
 		//$this->load  加载system/core/Loader.php文件，并对CI_loader实例化 赋值给load属性
 		$this->load =& load_class('Loader', 'core');
 
-		$this->load->initialize(); 
+		$this->load->initialize(); //controller实例化的时候 自动加载文件 自动加载
 		
 		log_message('debug', "Controller Class Initialized");
 	}
