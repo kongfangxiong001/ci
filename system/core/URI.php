@@ -194,6 +194,9 @@ class CI_URI {
 
 		// This section ensures that even on servers that require the URI to be in the query string (Nginx) a correct
 		// URI is found, and also fixes the QUERY_STRING server var and $_GET array.
+		/*
+		 * strncmp(string1,string2,length)
+		 */
 		if (strncmp($uri, '?/', 2) === 0)
 		{
 			$uri = substr($uri, 2);
@@ -203,6 +206,7 @@ class CI_URI {
 		if (isset($parts[1]))
 		{
 			$_SERVER['QUERY_STRING'] = $parts[1];
+			//parse_str(string,array) 把查询字符串解析到变量中
 			parse_str($_SERVER['QUERY_STRING'], $_GET);
 		}
 		else
@@ -315,6 +319,7 @@ class CI_URI {
 	 * use functions like $this->uri->segment(n) since there is
 	 * a 1:1 relationship between the segment array and the actual segments.
 	 *
+	 * 从1开始
 	 * @access	private
 	 * @return	void
 	 */

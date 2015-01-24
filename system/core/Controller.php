@@ -33,7 +33,7 @@ class CI_Controller {
 
 	/**
 	 * Constructor
-	 * 
+	 * $CI 实例化后 具备bootstrap实例化的对象，autoload的实例化的属性。
 	 */
 	public function __construct()
 	{

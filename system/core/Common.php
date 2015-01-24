@@ -138,7 +138,7 @@ if ( ! function_exists('load_class'))
 	 * @param	string	an optional argument to pass to the class constructor
 	 * @return	object
 	 * 
-	 * 加载$directory下的$class; 返回$class的实例
+	 * 加载$directory下的$class; 返回$class的实例，并在$_classes[$class]中记录实例化的类，后面CI_controller实例化的时候，一并赋值给$CI
 	 */
 	function &load_class($class, $directory = 'libraries', $param = NULL)
 	{
@@ -149,7 +149,6 @@ if ( ! function_exists('load_class'))
 		{
 			return $_classes[$class];
 		}
-
 		$name = FALSE;
 
 		// Look for the class first in the local application/libraries folder
@@ -188,10 +187,9 @@ if ( ! function_exists('load_class'))
 			echo 'Unable to locate the specified class: '.$class.'.php';
 			exit(5); // EXIT_UNK_CLASS
 		}
-
+		
 		// Keep track of what we just loaded
 		is_loaded($class);
-
 		$_classes[$class] = isset($param)
 			? new $name($param)
 			: new $name();

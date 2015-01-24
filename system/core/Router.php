@@ -97,6 +97,8 @@ class CI_Router {
 	 *
 	 * This function determines what should be served based on the URI request,
 	 * as well as any "routes" that have been set in the routing config file.
+	 * 
+	 * 决定在本次请求中使用routeing config file中的哪条路由
 	 *
 	 * @access	private
 	 * @return	void
@@ -128,7 +130,7 @@ class CI_Router {
 			}
 		}
 
-		// Load the routes.php file.
+		// Load the routes.php file.// routes配置文件
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
@@ -148,7 +150,7 @@ class CI_Router {
 		// Were there any query string segments?  If so, we'll validate them and bail out since we're done.
 		if (count($segments) > 0)
 		{
-			return $this->_validate_request($segments);
+			return $this->_validate_request($segments); //设置subdir,返回$segments
 		}
 
 		// Fetch the complete URI string
@@ -162,12 +164,13 @@ class CI_Router {
 
 		// Do we need to remove the URL suffix?
 		$this->uri->_remove_url_suffix();
-
 		// Compile the segments into an array
 		$this->uri->_explode_segments();
-
+		
+		
+		//$this->uri->segments都设置好了
 		// Parse any custom routing that may exist
-		$this->_parse_routes();
+		$this->_parse_routes(); //选定路由
 
 		// Re-index the segment array so that it starts with 1 rather than 0
 		$this->uri->_reindex_segments();
@@ -268,7 +271,7 @@ class CI_Router {
 			return $segments;
 		}
 
-		// Does the requested controller exist in the root folder?
+		// Does the requested controller exist in the root folder? $segments[0]为controller
 		if (file_exists(APPPATH.'controllers/'.$segments[0].'.php'))
 		{
 			return $segments;
@@ -304,7 +307,7 @@ class CI_Router {
 			}
 			else
 			{
-				// Is the method being specified in the route?
+				// Is the method being specified in the route? controller/method
 				if (strpos($this->default_controller, '/') !== FALSE)
 				{
 					$x = explode('/', $this->default_controller);
@@ -357,6 +360,8 @@ class CI_Router {
 	 * the config/routes.php file against the URI to
 	 * determine if the class/method need to be remapped.
 	 *
+	 * $this->_set_request($arr);
+	 *
 	 * @access	private
 	 * @return	void
 	 */
@@ -374,13 +379,13 @@ class CI_Router {
 		// Loop through the route array looking for wild-cards
 		foreach ($this->routes as $key => $val)
 		{
-			// Convert wild-cards to RegEx
+			// Convert wild-cards to RegEx //替换成标准正则表达式
 			$key = str_replace(':any', '.+', str_replace(':num', '[0-9]+', $key));
 
-			// Does the RegEx match?
+			// Does the RegEx match? 是否匹配
 			if (preg_match('#^'.$key.'$#', $uri))
 			{
-				// Do we have a back-reference?
+				// Do we have a back-reference? 有$,(=>有后项引用
 				if (strpos($val, '$') !== FALSE AND strpos($key, '(') !== FALSE)
 				{
 					$val = preg_replace('#^'.$key.'$#', $val, $uri);

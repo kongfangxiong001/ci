@@ -41,6 +41,7 @@ class Welcome extends CI_Controller {
 	{
 		$fruit = array('apple'=>'pingguo','banana'=>'xiangjiao');
 		$this->load->vars($fruit);
+		//in the view  $apple,$banana
 	}
 	public function cache_driver()
 	{
@@ -75,6 +76,15 @@ class Welcome extends CI_Controller {
 		print_r($config);
 		print_r($this->config);
 	}
+	public function load_email(){
+		$this->load->library("email");
+		print_r($this->email);
+	}
+	public function blank()
+	{
+		echo 'blank';
+	}
+		
 }
 
 /* End of file welcome.php */

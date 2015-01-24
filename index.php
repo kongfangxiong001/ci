@@ -147,13 +147,17 @@ if (defined('ENVIRONMENT'))
 
 	// ensure there's a trailing slash
 	$system_path = rtrim($system_path, '/').'/';
-
 	// Is the system path correct?
+	/**
+	 * pathinfo(__FILE__, PATHINFO_BASENAME)
+	 *PATHINFO_DIRNAME - 只返回 dirname
+	 *PATHINFO_BASENAME - 只返回 basename
+	 *PATHINFO_EXTENSION - 只返回 extension
+	 */
 	if ( ! is_dir($system_path))
 	{
 		exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: ".pathinfo(__FILE__, PATHINFO_BASENAME));
 	}
-
 /*
  * -------------------------------------------------------------------
  *  Now that we know the path, set the main path constants
@@ -165,16 +169,13 @@ if (defined('ENVIRONMENT'))
 	// The PHP file extension
 	// this global constant is deprecated.
 	define('EXT', '.php');
-
 	// Path to the system folder
 	define('BASEPATH', str_replace("\\", "/", $system_path));
-
 	// Path to the front controller (this file)
 	define('FCPATH', str_replace(SELF, '', __FILE__));
 
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
-
 
 	// The path to the "application" folder
 	if (is_dir($application_folder))
@@ -190,7 +191,6 @@ if (defined('ENVIRONMENT'))
 
 		define('APPPATH', BASEPATH.$application_folder.'/');
 	}
-
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

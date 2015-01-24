@@ -14,3 +14,11 @@
 
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */
+
+$hook['pre_controller'] = array(
+                                'class'    => 'MyClass',
+                                'function' => 'Myfunction',
+                                'filename' => 'Myclass.php',
+                                'filepath' => 'hooks',
+                                'params'   => array('beer', 'wine', 'snacks')
+                                );

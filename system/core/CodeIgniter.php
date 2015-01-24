@@ -93,10 +93,13 @@
  * before any classes are loaded
  * Note: Since the config file data is cached it doesn't
  * hurt to load it here.
+ * application/config/config.php中额设置，可以在index.php中被覆盖。
+ * share one application between multiple front controller files 看不明白怎么回事
+ * 
  */
 	if (isset($assign_to_config['subclass_prefix']) AND $assign_to_config['subclass_prefix'] != '')
 	{
-		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
+		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix'])); //为static $config;赋值
 	}
 
 /*
@@ -171,8 +174,9 @@
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
  */
+	
 	$RTR =& load_class('Router', 'core');
-	$RTR->_set_routing();
+	$RTR->_set_routing(); //选定路由
 
 	// Set any routing overrides that may exist in the main index file
 	if (isset($routing))
@@ -303,7 +307,7 @@
  *  Is there a "pre_controller" hook?
  * ------------------------------------------------------
  */
-	$EXT->_call_hook('pre_controller');
+	$EXT->_call_hook('pre_controller');  //执行绑定在pre_controller的hook
 
 /*
  * ------------------------------------------------------
@@ -320,14 +324,16 @@
  *  Is there a "post_controller_constructor" hook?
  * ------------------------------------------------------
  */
-	$EXT->_call_hook('post_controller_constructor');
+	$EXT->_call_hook('post_controller_constructor');  //执行绑定在post_controller_constructor的hook
 
 /*
  * ------------------------------------------------------
  *  Call the requested method
  * ------------------------------------------------------
  */
-	// Is there a "remap" function? If so, we call it instead $CI 中是否有_remap方法
+	// Is there a "remap" function? If so, we call it instead | $CI 中是否有_remap方法
+	// 如果controller中有_remap，就会调用_remap而不调用$method
+	//http://codeigniter.org.cn/user_guide/general/controllers.html
 	if (method_exists($CI, '_remap'))
 	{
 		$CI->_remap($method, array_slice($URI->rsegments, 2));
@@ -377,7 +383,7 @@
  *  Is there a "post_controller" hook?
  * ------------------------------------------------------
  */
-	$EXT->_call_hook('post_controller');
+	$EXT->_call_hook('post_controller');  //执行绑定在post_controller的hook
 
 /*
  * ------------------------------------------------------
@@ -386,7 +392,7 @@
  */
 	if ($EXT->_call_hook('display_override') === FALSE)
 	{
-		$OUT->_display();
+		$OUT->_display(); //显示渲染后的结果
 	}
 
 /*
@@ -394,7 +400,7 @@
  *  Is there a "post_system" hook?
  * ------------------------------------------------------
  */
-	$EXT->_call_hook('post_system');
+	$EXT->_call_hook('post_system'); //执行绑定在post_system的hook
 
 /*
  * ------------------------------------------------------
