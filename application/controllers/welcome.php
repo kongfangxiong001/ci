@@ -85,6 +85,15 @@ class Welcome extends CI_Controller {
 		echo $this->config->base_url();
 		echo $this->config->site_url();
 	}
+	public function output()
+	{
+		$this->load->view("output");
+		$data = "output special!";
+		$this->output->set_output($data);
+		$string = $this->output->get_output();
+		$this->output->append_output("append_output");
+		
+	}
 		
 }
 
