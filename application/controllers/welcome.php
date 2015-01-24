@@ -82,7 +82,8 @@ class Welcome extends CI_Controller {
 	}
 	public function blank()
 	{
-		echo 'blank';
+		echo $this->config->base_url();
+		echo $this->config->site_url();
 	}
 		
 }

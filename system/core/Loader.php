@@ -265,10 +265,10 @@ class CI_Loader {
 		if (($last_slash = strrpos($model, '/')) !== FALSE)
 		{
 			// The path is in front of the last slash
-			$path = substr($model, 0, $last_slash + 1);
+			$path = substr($model, 0, $last_slash + 1); //可以多层目录
 
 			// And the model name behind it
-			$model = substr($model, $last_slash + 1);
+			$model = substr($model, $last_slash + 1);  //$model
 		}
 
 		if ($name == '')
