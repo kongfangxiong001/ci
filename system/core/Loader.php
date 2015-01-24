@@ -147,9 +147,9 @@ class CI_Loader {
 		$this->_ci_classes = array();
 		$this->_ci_loaded_files = array();
 		$this->_ci_models = array();
-		$this->_base_classes =& is_loaded();  //已经装载的class赋值给_base_classes。引用
+		$this->_base_classes =& is_loaded();  //已经装载的class赋值给_base_classes。引用 。经由&load_class()加载过的class
 
-		$this->_ci_autoloader();
+		$this->_ci_autoloader(); 
 
 		return $this;
 	}
@@ -191,7 +191,7 @@ class CI_Loader {
 	 * @param	string	an optional object name
 	 * @return	void
 	 * 
-	 * $this->$classname/$object_name = new $classname;
+	 * $CI->$classname/$object_name = new $classname;
 	 * 
 	 */
 	public function library($library = '', $params = NULL, $object_name = NULL)
@@ -236,6 +236,7 @@ class CI_Loader {
 	 * $model为大小写皆可，只是在赋值给CI的时候必须一致。
 	 * 后面加载$model文件，在实例化的时候ucfirst。
 	 * $path
+	 * $CI->$model = new $model;
 	 */
 	public function model($model, $name = '', $db_conn = FALSE)
 	{
@@ -1167,6 +1168,8 @@ class CI_Loader {
 	 *
 	 * @param	array
 	 * @return	void
+	 * 
+	 * //加载自动加载文件
 	 * 
 	 */
 	private function _ci_autoloader()
