@@ -38,7 +38,7 @@ class CI_Driver_Library {
 	{
 		if ( ! isset($this->lib_name))
 		{
-			$this->lib_name = get_class($this);
+			$this->lib_name = get_class($this); //$this 是指 CI_Cache
 		}
 
 		// The class will be prefixed with the parent lib
@@ -118,6 +118,8 @@ class CI_Driver {
 	 * Decorate
 	 *
 	 * Decorates the child with the parent driver lib's methods and properties
+	 *
+	 * //将父类的名称写入$this->parent,父类的method保存到$this->methods[],父类的property写入$this->properties[]
 	 *
 	 * @param	object
 	 * @return	void

@@ -94,6 +94,18 @@ class Welcome extends CI_Controller {
 		$this->output->append_output("append_output");
 		
 	}
+	public function pagenation()
+	{
+		$this->load->library('pagination');
+		$this->load->helper('url');
+		
+		$config['base_url'] = site_url('welcome/pagenation');
+		$config['total_rows'] = 200;
+		$config['per_page'] = 20; 
+		
+		$this->pagination->initialize($config); 
+		echo $this->pagination->create_links();	
+	}
 		
 }
 
