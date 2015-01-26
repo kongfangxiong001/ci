@@ -325,7 +325,7 @@ class CI_Output {
 	{
 		// Note:  We use globals because we can't use $CI =& get_instance()
 		// since this function is sometimes called by the caching mechanism,
-		// which happens before the CI super object is available.
+		// which happens before the CI super object is available. //在缓存调用_display()的时候，$CI还没有实例化。 but 缓存怎么调用_display
 		global $BM, $CFG;
 
 		// Grab the super object if we can.
@@ -346,7 +346,7 @@ class CI_Output {
 
 		// Do we need to write a cache file?  Only if the controller does not have its
 		// own _output() method and we are not dealing with a cache file, which we
-		// can determine by the existence of the $CI object above
+		// can determine by the existence of the $CI object above //cache_expiration>0且当前controller没有_output()函数
 		if ($this->cache_expiration > 0 && isset($CI) && ! method_exists($CI, '_output'))
 		{
 			$this->_write_cache($output);
@@ -369,7 +369,7 @@ class CI_Output {
 
 		// --------------------------------------------------------------------
 
-		// Is compression requested?
+		// Is compression requested?  用ob_gzhandler压缩输出
 		if ($CFG->item('compress_output') === TRUE && $this->_zlib_oc == FALSE)
 		{
 			if (extension_loaded('zlib'))
@@ -396,7 +396,7 @@ class CI_Output {
 
 		// Does the $CI object exist?
 		// If not we know we are dealing with a cache file so we'll
-		// simply echo out the data and exit.
+		// simply echo out the data and exit. //$CI未实例化，缓存调用的本函数，则直接output
 		if ( ! isset($CI))
 		{
 			echo $output;

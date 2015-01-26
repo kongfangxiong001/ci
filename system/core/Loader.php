@@ -276,7 +276,9 @@ class CI_Loader {
 			$name = $model;
 		}
 		/**
-		 * 防止加载两次
+		 * 加载两次按说应该报错，但是没有!
+		 * 因为这句$this->_ci_models[] = $name;
+		 * 不会执行到这里,而只会加载一次
 		 */
 		if (in_array($name, $this->_ci_models, TRUE))
 		{
@@ -284,11 +286,7 @@ class CI_Loader {
 		}
 
 		$CI =& get_instance();
-		/**
-		 * 加载两次按说应该报错，但是没有!
-		 * 因为这句$this->_ci_models[] = $name;
-		 * 不会执行到这里,而只会加载一次
-		 */
+	
 		if (isset($CI->$name))
 		{
 			show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
@@ -328,7 +326,7 @@ class CI_Loader {
 			 */
 			$CI->$name = new $model();
 			
-			$this->_ci_models[] = $name;
+			$this->_ci_models[] = $name; //防止加载两次出错
 			return;
 		}
 
@@ -781,7 +779,7 @@ class CI_Loader {
 	 * This function is used to load views and files.
 	 * Variables are prefixed with _ci_ to avoid symbol collision with
 	 * variables made available to view files
-	 *
+	 *   $this->load->view(); $this->load->file();时会调用
 	 * @param	array
 	 * @return	void
 	 */
@@ -795,7 +793,7 @@ class CI_Loader {
 
 		$file_exists = FALSE;
 
-		// Set the path to the requested file
+		// Set the path to the requested file $this->load->view();未传递_ci_path变量
 		if ($_ci_path != '')
 		{
 			$_ci_x = explode('/', $_ci_path);
@@ -829,7 +827,7 @@ class CI_Loader {
 
 		// This allows anything loaded using $this->load (views, files, etc.)
 		// to become accessible from within the Controller and Model functions.
-
+		//$this->load(xxxx) 会为$CI添加属性，下面的循环会将$CI上的属性都拷贝到$this上
 		$_ci_CI =& get_instance();
 		foreach (get_object_vars($_ci_CI) as $_ci_key => $_ci_var)
 		{
@@ -852,6 +850,7 @@ class CI_Loader {
 		{
 			$this->_ci_cached_vars = array_merge($this->_ci_cached_vars, $_ci_vars);
 		}
+		//提取变量
 		extract($this->_ci_cached_vars);
 
 		/*
@@ -899,7 +898,7 @@ class CI_Loader {
 		 * we are beyond the first level of output buffering so that
 		 * it can be seen and included properly by the first included
 		 * template and any subsequent ones. Oy!
-		 *
+		 * 输出
 		 */
 		if (ob_get_level() > $this->_ci_ob_level + 1)
 		{
@@ -918,6 +917,8 @@ class CI_Loader {
 	 * Load class
 	 *
 	 * This function loads the requested class.
+	 *
+	 * 只有$this->load->library();调用
 	 *
 	 * @param	string	the item that is being loaded
 	 * @param	mixed	any additional parameters

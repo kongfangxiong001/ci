@@ -93,7 +93,8 @@
  * before any classes are loaded
  * Note: Since the config file data is cached it doesn't
  * hurt to load it here.
- * application/config/config.php中额设置，可以在index.php中被覆盖。
+ * 
+ * application/config/config.php中的设置，可以在index.php中被覆盖。
  * share one application between multiple front controller files 看不明白怎么回事
  * 
  */
@@ -236,7 +237,7 @@
 	//加载后定义一个全局函数, $CI = &get_instance();获取CI
 	function &get_instance()
 	{
-		return CI_Controller::get_instance();
+		return CI_Controller::get_instance();  //CI_Controller 的__construct()调用$this->load->initialize(); 自动加载
 	}
 
 
@@ -273,7 +274,10 @@
  *  array_map(null,array1,array2); 
  *  strncmp(string1,string2,length) 比较两个字串是否相等。length规定比较的长度 strcmp(string1,string2) 比较大小，不规定长度。
  */
-	$class  = $RTR->fetch_class();
+	/**
+	 * $RTR->_set_routing(); //选定路由的时候，class，method都赋值了。
+	 */
+	$class  = $RTR->fetch_class(); 
 	$method = $RTR->fetch_method();
 
 	if ( ! class_exists($class)
@@ -317,7 +321,7 @@
 	// Mark a start point so we can benchmark the controller
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_start');
 
-	$CI = new $class();
+	$CI = new $class(); //实例化Controller，自动加载autoload.php中配置的library，config，helper
 
 /*
  * ------------------------------------------------------
