@@ -219,7 +219,9 @@ class CI_Router {
 	 *
 	 * This function takes an array of URI segments as
 	 * input, and sets the current class/method
-	 *
+	 * 
+	 * 
+	 * 
 	 * @access	private
 	 * @param	array
 	 * @param	bool
@@ -227,7 +229,7 @@ class CI_Router {
 	 */
 	function _set_request($segments = array())
 	{
-		$segments = $this->_validate_request($segments);
+		$segments = $this->_validate_request($segments); //返回$segments['class'],$segments['method']
 
 		if (count($segments) == 0)
 		{
@@ -259,6 +261,9 @@ class CI_Router {
 	/**
 	 * Validates the supplied segments.  Attempts to determine the path to
 	 * the controller.
+	 * 
+	 * 判断$segments是否正确，并返回$segments。在过程中$this->set_directory(); $this->set_class();$this->set_method();
+	 * 
 	 *
 	 * @access	private
 	 * @param	array
@@ -327,9 +332,7 @@ class CI_Router {
 					$this->directory = '';
 					return array();
 				}
-
 			}
-
 			return $segments;
 		}
 
