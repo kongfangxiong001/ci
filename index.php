@@ -1,5 +1,9 @@
 <?php
 
+
+/**
+ * hmvc : http://codeigniter.org.cn/forums/forum.php?mod=viewthread&tid=1319&extra=&page=1
+ */
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
@@ -176,7 +180,6 @@ if (defined('ENVIRONMENT'))
 
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
-
 	// The path to the "application" folder
 	if (is_dir($application_folder))
 	{

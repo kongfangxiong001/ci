@@ -61,10 +61,10 @@ if ( ! function_exists('is_php'))
 	 */
 	function is_php($version)
 	{
-		static $_is_php;
+		static $_is_php; 
 		$version = (string) $version;
 
-		if ( ! isset($_is_php[$version]))
+		if ( ! isset($_is_php[$version])) //只需比较一次，下次$_is_php[$version]会有结果，直接跳过
 		{
 			$_is_php[$version] = version_compare(PHP_VERSION, $version, '>=');
 		}
@@ -640,7 +640,7 @@ if ( ! function_exists('_exception_handler'))
 	 * Sends uncaught exceptions to the logger and displays them
 	 * only if display_errors is On so that they don't show up in
 	 * production environments.
-	 *
+	 * set_error_handler() http://php.net/manual/en/function.set-error-handler.php
 	 * @param	Exception	$exception
 	 * @return	void
 	 */
@@ -742,7 +742,7 @@ if ( ! function_exists('html_escape'))
 		{
 			return array_map('html_escape', $var, array_fill(0, count($var), $double_encode));
 		}
-
+		//http://php.net/manual/en/function.htmlspecialchars.php
 		return htmlspecialchars($var, ENT_QUOTES, config_item('charset'), $double_encode);
 	}
 }

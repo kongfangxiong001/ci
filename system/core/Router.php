@@ -286,7 +286,7 @@ class CI_Router {
 			//有指定controller/method 则调用，否则调用defaut_controller
 			if (count($segments) > 0)
 			{
-				// Does the requested controller exist in the sub-folder?  //sub_dir/$class/method不存在 报错
+				// Does the requested controller exist in the sub-folder?  //sub_dir/$class/method不存在 报错.否则就返回$segments
 				if ( ! file_exists(APPPATH.'controllers/'.$this->fetch_directory().$segments[0].'.php'))
 				{
 					if ( ! empty($this->routes['404_override']))
@@ -307,7 +307,7 @@ class CI_Router {
 			}
 			else
 			{
-				// Is the method being specified in the route? controller/method
+				// Is the method being specified in the route? default_controller如下形式controller/method
 				if (strpos($this->default_controller, '/') !== FALSE)
 				{
 					$x = explode('/', $this->default_controller);
