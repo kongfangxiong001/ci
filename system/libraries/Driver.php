@@ -20,7 +20,9 @@
  *
  * This class enables you to create "Driver" libraries that add runtime ability
  * to extend the capabilities of a class via additional driver objects
- *
+ * 
+ * CI_Driver_Library: driver library，就像一个库一样，里面包含很多子driver
+ * 
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Libraries
@@ -34,7 +36,7 @@ class CI_Driver_Library {
 
 	// The first time a child is used it won't exist, so we instantiate it
 	// subsequents calls will go straight to the proper child.
-	// 将子类实例化 返回。从而达到子类不需实例化就可以调用
+	// 将子类实例化 返回。从而达到子类不需实例化就可以调用 。
 	function __get($child)
 	{
 		if ( ! isset($this->lib_name))
@@ -79,7 +81,7 @@ class CI_Driver_Library {
 			}
 
 			$obj = new $child_class;
-			$obj->decorate($this);
+			$obj->decorate($this); //$this 指的CI_Cache。即$obj对应的library
 			$this->$child = $obj;
 			return $this->$child;
 		}
@@ -97,7 +99,11 @@ class CI_Driver_Library {
 
 /**
  * CodeIgniter Driver Class
- *
+ * 
+ * 
+ * CI_Driver: driver ，driver驱动的基类
+ * 
+ * 
  * This class enables you to create drivers for a Library based on the Driver Library.
  * It handles the drivers' access to the parent library
  *
@@ -127,7 +133,7 @@ class CI_Driver {
 	 */
 	public function decorate($parent)
 	{
-		$this->parent = $parent;
+		$this->parent = $parent;  //$this->parent赋值为对应的cache_library  此处为CI_Cache
 
 		// Lock down attributes to what is defined in the class
 		// and speed up references in magic methods

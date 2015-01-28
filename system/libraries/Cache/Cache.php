@@ -194,7 +194,8 @@ class CI_Cache extends CI_Driver_Library {
 	 * __get()
 	 * 
 	 * 魔法函数 ; 在调用适配器的时候 该方法会被调用，比如：
-	 * $this->cache->file 
+	 * $this->cache->file
+	 * 实现了不需名曲实例化 子驱动
 	 *
 	 * @param 	child
 	 * @return 	object

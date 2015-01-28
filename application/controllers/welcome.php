@@ -106,6 +106,62 @@ class Welcome extends CI_Controller {
 		$this->pagination->initialize($config); 
 		echo $this->pagination->create_links();	
 	}
+	 function register()
+	 {
+		  $this->load->helper(array('form', 'url'));
+		  $this->load->library('form_validation');
+		  $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+		  
+		  
+		  $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|callback_username_check');
+		  $this->form_validation->set_rules('password', 'Password', 'required|matches[passconf]');
+		  $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required');
+		  $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+		  $this->form_validation->set_rules('colors[]', 'colors', 'required');
+		   $this->form_validation->set_rules('mycheck[]', 'mycheck', '');
+		  
+		  if ($this->form_validation->run() == FALSE)
+		  {
+		   		$this->load->view('myform');
+		  }
+		  else
+		  {
+		   		$this->load->view('formsuccess');
+		  }
+	 }
+	 
+	public function username_check($str)
+	 {
+	  if ($str == 'test')
+	  {
+		   $this->form_validation->set_message('username_check', 'The %s field can not be the word "test"');
+		   return FALSE;
+	  }
+	  else
+	  {
+	   		return TRUE;
+	  }
+	 }
+	 /**
+	  * URI 类
+	  * http://codeigniter.org.cn/user_guide/libraries/uri.html
+	  */
+	 public function segment(){
+	 	echo $this->uri->segment(2, 0);
+	 	echo $this->uri->rsegment(1);
+	 	$array = $this->uri->uri_to_assoc(3);
+	 	print_r($array);
+	 	
+	 	$array = array('product' => 'shoes', 'size' => 'large', 'color' => 'red');
+		$str = $this->uri->assoc_to_uri($array);
+		echo $str;
+		$this->load->helper('url');
+		echo site_url().base_url();
+		echo "||";
+		echo $this->uri->uri_string();
+		$segment_array = $this->uri->segment_array();
+		print_r($segment_array);
+	 }
 		
 }
 
