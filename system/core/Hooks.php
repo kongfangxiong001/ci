@@ -93,7 +93,7 @@ class CI_Hooks {
 			return;
 		}
 
-		$this->hooks =& $hook;
+		$this->hooks =& $hook; //$hook 为hook配置数组
 		$this->enabled = TRUE;
 	}
 
@@ -103,7 +103,9 @@ class CI_Hooks {
 	 * Call Hook
 	 *
 	 * Calls a particular hook
-	 *
+	 * 
+	 * 调用 挂载在某个点[$which]上的hook，如果有多个都调用
+	 * 
 	 * @access	private
 	 * @param	string	the hook name
 	 * @return	mixed
@@ -124,7 +126,7 @@ class CI_Hooks {
 		}
 		else
 		{
-			$this->_run_hook($this->hooks[$which]);
+			$this->_run_hook($this->hooks[$which]); //$this->hooks[$which] 某个hook类的配置数组
 		}
 
 		return TRUE;
@@ -224,7 +226,7 @@ class CI_Hooks {
 		// -----------------------------------
 		// Call the requested class and/or function
 		// -----------------------------------
-
+		//如果指定了 $class $function
 		if ($class !== FALSE)
 		{
 			if ( ! class_exists($class))
@@ -237,6 +239,7 @@ class CI_Hooks {
 		}
 		else
 		{
+			//没有指定则直接$function($params);
 			if ( ! function_exists($function))
 			{
 				require($filepath);
