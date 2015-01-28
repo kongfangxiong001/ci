@@ -147,6 +147,7 @@ class Welcome extends CI_Controller {
 	  * http://codeigniter.org.cn/user_guide/libraries/uri.html
 	  */
 	 public function segment(){
+	 	$this->output->enable_profiler(TRUE); //性能分析
 	 	echo $this->uri->segment(2, 0);
 	 	echo $this->uri->rsegment(1);
 	 	$array = $this->uri->uri_to_assoc(3);
@@ -162,8 +163,17 @@ class Welcome extends CI_Controller {
 		$segment_array = $this->uri->segment_array();
 		print_r($segment_array);
 	 }
-		
+	 
+	 public function log(){
+	 	echo "log run!";
+	 	log_message("notice","Just test");
+	 }
 }
 
 /* End of file welcome.php */
 /* Location: ./application/controllers/welcome.php */
+
+
+
+
+

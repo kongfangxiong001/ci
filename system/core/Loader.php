@@ -779,7 +779,9 @@ class CI_Loader {
 	 * This function is used to load views and files.
 	 * Variables are prefixed with _ci_ to avoid symbol collision with
 	 * variables made available to view files
-	 *   $this->load->view(); $this->load->file();时会调用
+	 * $this->load->view(); $this->load->file();时会调用
+	 * 
+	 * include $viewfile/$_ci_path;返回内容,或直接输出
 	 * @param	array
 	 * @return	void
 	 */

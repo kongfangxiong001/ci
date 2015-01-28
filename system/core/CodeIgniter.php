@@ -70,7 +70,7 @@
  *  Define a custom error handler so we can log PHP errors
  * ------------------------------------------------------
  */
-	//不清楚怎么使用
+	//http://www.w3school.com.cn/php/func_error_set_error_handler.asp  自定义错误处理函数,_exception_handler 会调用异常处理类
 	set_error_handler('_exception_handler');
 
 	if ( ! is_php('5.3'))
