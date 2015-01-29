@@ -47,20 +47,19 @@ class ConnectDB {
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
-        $this->getConnect();
     }
     
-    public function getConnect() {
-    	try{
-    		$this->conn = mysql_connect($this->host,$this->username,$this->password);
-    		if(!$this->conn){
-    			throw new Exception("Can't connect mysql server");
-    		}
-    		return $this->conn;
-    	}catch(Exception $e){
-    		echo $e->getMessage();
-    	}
-    }
+//    public function getConnect() {
+//    	try{
+//    		$this->conn = mysql_connect($this->host,$this->username,$this->password);
+//    		if(!$this->conn){
+//    			throw new Exception("Can't connect mysql server");
+//    		}
+//    		return $this->conn;
+//    	}catch(Exception $e){
+//    		echo $e->getMessage();
+//    	}
+//    }
 }
 
 //测试
