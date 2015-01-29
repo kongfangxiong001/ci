@@ -135,7 +135,10 @@ function &DB($params = '', $active_record_override = NULL)
 	{
 		$active_record = $active_record_override;
 	}
-
+	
+	/**
+	 * 加载db_driver
+	 */
 	require_once(BASEPATH.'database/DB_driver.php');
 
 	if ( ! isset($active_record) OR $active_record == TRUE)
@@ -144,7 +147,7 @@ function &DB($params = '', $active_record_override = NULL)
 
 		if ( ! class_exists('CI_DB'))
 		{
-			eval('class CI_DB extends CI_DB_active_record { }');
+			eval('class CI_DB extends CI_DB_active_record { }');  //CI_DB 找不到定义的文件，是通过eval来extends来实现的
 		}
 	}
 	else
@@ -160,11 +163,11 @@ function &DB($params = '', $active_record_override = NULL)
 	 */
 	
 	/**
-	 * 加载对应数据库驱动
+	 * 加载对应数据库驱动  $params['dbdriver'];
 	 */
 	require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php');
 
-	// Instantiate the DB adapter
+	// Instantiate the DB adapter  实例化
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
 	$DB = new $driver($params);
 

@@ -17,7 +17,9 @@
 
 /**
  * Database Utility Class
- *
+ * 
+ * forge用来操作数据库 ddl。适配器模式
+ * 
  * @category	Database
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/database/

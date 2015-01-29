@@ -139,6 +139,9 @@ if ( ! function_exists('load_class'))
 	 * @return	object
 	 * 
 	 * 加载$directory下的$class; 返回$class的实例，并在$_classes[$class]中记录实例化的类，后面CI_controller实例化的时候，一并赋值给$CI
+	 * 有点注册者模式的思想 ,$_classes.但是$_classes作用域只能在函数内。
+	 * 
+	 * 
 	 */
 	function &load_class($class, $directory = 'libraries', $param = NULL)
 	{
@@ -147,12 +150,12 @@ if ( ! function_exists('load_class'))
 		// Does the class exist? If so, we're done...
 		if (isset($_classes[$class]))
 		{
-			return $_classes[$class];
+			return $_classes[$class]; //注册者模式的get方法
 		}
 		$name = FALSE;
 
 		// Look for the class first in the local application/libraries folder
-		// then in the native system/libraries folder
+		// then in the native system/libraries folder //在APPPATH,BASEPATH中找$class
 		foreach (array(APPPATH, BASEPATH) as $path)
 		{
 			if (file_exists($path.$directory.'/'.$class.'.php'))
@@ -168,7 +171,7 @@ if ( ! function_exists('load_class'))
 			}
 		}
 
-		// Is the request a class extension? If so we load it too
+		// Is the request a class extension? If so we load it too 。扩展
 		if (file_exists(APPPATH.$directory.'/'.config_item('subclass_prefix').$class.'.php'))
 		{
 			$name = config_item('subclass_prefix').$class;
@@ -190,7 +193,7 @@ if ( ! function_exists('load_class'))
 		
 		// Keep track of what we just loaded
 		is_loaded($class);
-		$_classes[$class] = isset($param)
+		$_classes[$class] = isset($param)  //注册者模式中的set方法
 			? new $name($param)
 			: new $name();
 		return $_classes[$class];
