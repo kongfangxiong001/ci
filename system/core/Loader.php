@@ -636,6 +636,10 @@ class CI_Loader {
 	 * @param	mixed	the optional parameters
 	 * @param	string	an optional object name
 	 * @return	void
+	 * 
+	 * 
+	 * require Driver.php {包括class CI_Driver_Library VS class CI_Driver两个class}
+	 * 
 	 */
 	public function driver($library = '', $params = NULL, $object_name = NULL)
 	{

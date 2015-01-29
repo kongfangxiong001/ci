@@ -127,7 +127,7 @@ class CI_Driver {
 	 * Decorates the child with the parent driver lib's methods and properties
 	 *
 	 * //将父类的名称写入$this->parent,父类的method保存到$this->methods[],父类的property写入$this->properties[]
-	 *
+	 * 将父类的东西 赋值给子类的属性，方法
 	 * @param	object
 	 * @return	void
 	 */
@@ -174,7 +174,8 @@ class CI_Driver {
 	 * __call magic method
 	 *
 	 * Handles access to the parent driver library's methods
-	 *
+	 * 全部从父类那边来 
+	 * 
 	 * @access	public
 	 * @param	string
 	 * @param	array
