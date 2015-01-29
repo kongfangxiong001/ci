@@ -1,4 +1,9 @@
 <?php
+/**
+ * http://blog.csdn.net/lovelion/article/details/7523392
+ * http://www.cnblogs.com/hongfei/archive/2012/07/07/2580776.html
+ *
+ */
 abstract class Calc{
 	abstract function getValue($num1,$num2);
 }

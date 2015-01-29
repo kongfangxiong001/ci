@@ -5,7 +5,7 @@
  * @link  http://www.phpddt.com
  */
 /**
- * 
+ * http://www.phpddt.com/php/registry-pattern.html
  *单例模式保证了一个类中只有一个实例被全局访问，当你有一组全局对象被全局访问时可能就需要用到注册者模式 (registry)，它 提供了在程序中有条理的存放并管理对象 (object)一种解决方案。一个“注册模式”应该提供get() 和 set()方法来存储和取得对象（用一些属性key）而且也应该提供一个isValid()方法来确定一个给定的属 性是否已经设置。
  *
  */
