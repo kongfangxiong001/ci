@@ -785,7 +785,7 @@ class CI_Loader {
 	 * variables made available to view files
 	 * $this->load->view(); $this->load->file();时会调用
 	 * 
-	 * include $viewfile/$_ci_path;返回内容,或直接输出
+	 * include $viewfile/$_ci_path;返回输出打印的内容,或直接输出
 	 * @param	array
 	 * @return	void
 	 */
