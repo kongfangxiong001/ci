@@ -55,6 +55,8 @@ class CI_Lang {
 
 	/**
 	 * Load a language file
+	 * 在拼接的目录中找，找不到的话再去package中去找
+	 *
 	 *
 	 * @access	public
 	 * @param	mixed	the name of the language file to be loaded. Can be an array
