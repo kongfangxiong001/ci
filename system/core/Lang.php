@@ -17,6 +17,8 @@
 
 /**
  * Language Class
+ * 
+ * 提供两个方法[load/line]给用户调用
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -66,32 +68,32 @@ class CI_Lang {
 	{
 		$langfile = str_replace('.php', '', $langfile);
 
-		if ($add_suffix == TRUE)
+		if ($add_suffix == TRUE) //默认不加后缀
 		{
 			$langfile = str_replace('_lang.', '', $langfile).'_lang';
 		}
 
 		$langfile .= '.php';
 
-		if (in_array($langfile, $this->is_loaded, TRUE))
+		if (in_array($langfile, $this->is_loaded, TRUE)) //防止二次加载
 		{
 			return;
 		}
 
 		$config =& get_config();
 
-		if ($idiom == '')
+		if ($idiom == '')  //config文件中的 $config['language']的配置。实际是配置$idiom目录
 		{
 			$deft_lang = ( ! isset($config['language'])) ? 'english' : $config['language'];
 			$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
 		}
 
-		// Determine where the language file is and load it
+		// Determine where the language file is and load it //$alt_path 指language的存放目录
 		if ($alt_path != '' && file_exists($alt_path.'language/'.$idiom.'/'.$langfile))
 		{
 			include($alt_path.'language/'.$idiom.'/'.$langfile);
 		}
-		else
+		else //package_paths 中是否有对应语言文件
 		{
 			$found = FALSE;
 
@@ -110,7 +112,7 @@ class CI_Lang {
 				show_error('Unable to load the requested language file: language/'.$idiom.'/'.$langfile);
 			}
 		}
-
+		//找到了加载，找不到报错
 
 		if ( ! isset($lang))
 		{
@@ -123,8 +125,8 @@ class CI_Lang {
 			return $lang;
 		}
 
-		$this->is_loaded[] = $langfile;
-		$this->language = array_merge($this->language, $lang);
+		$this->is_loaded[] = $langfile; //记录已经加载
+		$this->language = array_merge($this->language, $lang); //加到$this->language属性中。 $lang->line调用
 		unset($lang);
 
 		log_message('debug', 'Language file loaded: language/'.$idiom.'/'.$langfile);
@@ -143,8 +145,8 @@ class CI_Lang {
 	function line($line = '')
 	{
 		$value = ($line == '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
-
-		// Because killer robots like unicorns!
+		
+		// Because killer robots like unicorns! 返回$this->language[$line]
 		if ($value === FALSE)
 		{
 			log_message('error', 'Could not find the language line "'.$line.'"');
