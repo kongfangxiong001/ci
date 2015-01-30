@@ -47,7 +47,7 @@ Test2();
 Test2();
 /************************************************/
 /**
- * 静态变量只能Class::$varname调用,只能在静态方法中调用
+ * 静态变量只能Class::$varname调用
  */
 class Cat{
 	public static $name="a Cat Miao";
@@ -63,7 +63,7 @@ class Cat{
 		return self::$age;
 	}
 	
-	public   function get_age(){ //error
+	public   function get_age2(){
 		return self::$age;
 	}
 	
@@ -74,7 +74,7 @@ $age = Cat::get_age();
 echo $age;
 
 $cat = new Cat();
-echo $cat->get_age();
+echo $cat->get_age2();
 
 
 
