@@ -68,3 +68,25 @@ $reg->set('db1', new ConnectDB('127.0.0.1', 'root', ''));
 $reg->set('db2', new ConnectDB('192.168.1.198', 'test', '0K5Dt@2jdc8#x@'));
 print_r($reg->get('db1'));
 print_r($reg->get('db2'));
+
+class Cat{
+	public $name;
+	public $age;
+	public  function __construct($name,$age){
+		$this->name = $name;
+		$this->age = $age;
+	}
+	public  function introduce(){
+		echo $this->name."---".$this->age;
+	}
+}
+
+$reg->set('miao_jack',new Cat('jack',100));
+$reg->set('miao_peter',new Cat('peter',200));
+
+$reg->get('miao_jack')->introduce();
+$reg->get('miao_peter')->introduce();
+
+
+
+

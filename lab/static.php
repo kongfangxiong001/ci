@@ -54,7 +54,7 @@ class Cat{
 	private static $age;
 	public function __construct()
 	{
-		
+		self::$age = "100";
 	}
 	public static  function init(){
 		self::$age = 10;
@@ -67,6 +67,10 @@ class Cat{
 		return self::$age;
 	}
 	
+	public function set_age(){
+		self::$age = 20;
+		echo self::$age;
+	}
 }
 
 Cat::init();
@@ -75,6 +79,8 @@ echo $age;
 
 $cat = new Cat();
 echo $cat->get_age2();
+
+$cat->set_age();
 
 
 

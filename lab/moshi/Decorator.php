@@ -9,7 +9,7 @@ interface Component{
 
 abstract class Decorator implements Component{
 	protected $_component;
-	public function __construct($component)
+	public function __construct(Component $component)
 	{
 		$this->_component = $component;
 	}
@@ -20,7 +20,7 @@ abstract class Decorator implements Component{
 }
 
 class ConcreteDecoratorA extends Decorator {
-	public function __construct($component){
+	public function __construct(Component $component){
 		parent::__construct($component);
 	}
 	public function operation()
@@ -34,7 +34,7 @@ class ConcreteDecoratorA extends Decorator {
 }
 
 class ConcreteDecoratorB extends Decorator {
-	public function __construct($component){
+	public function __construct(Component $component){
 		parent::__construct($component);
 	}
 	public function operation()
@@ -54,12 +54,12 @@ class ConcreteComponent implements Component{
 }
 
 
-        $component = new ConcreteComponent();
-        $decoratorA = new ConcreteDecoratorA($component);
-        $decoratorB = new ConcreteDecoratorB($decoratorA);
+$component = new ConcreteComponent();
+$decoratorA = new ConcreteDecoratorA($component);
+$decoratorB = new ConcreteDecoratorB($decoratorA);
  
-        $decoratorA->operation();
-        $decoratorB->operation();
+$decoratorA->operation();
+$decoratorB->operation();
 
 
 
